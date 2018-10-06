@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div :class="MainHeaderObject">
         <!-- PC 버전 헤더 -->
         <div class="header_index" v-if="is_main">
             <div class="logo_area">
@@ -57,15 +57,12 @@
                     </ul>
                     <div class="header_top_btn_area">
                         <router-link :to="{ name: 'Main' }" :style="header_top_btn_area_logo">DOPEHOTZ</router-link>
-                        <!-- <a href="//dopehotz.com">DOPEHOTZ</a> -->
                     </div>
                     <div class="logout_wrap">
                         <router-link :to="{ name: 'logout' }">LOG OUT</router-link>
                     </div>
                 </div>
             </div>
-        
-        
         </div>
     </div>
 </template>
@@ -87,27 +84,78 @@
         methods: {
             menu_toggle(){
                 if ($(".menu_btn_m").hasClass('open')){
+                    if (history.length > 2) {
+                        history.back();
+                    }else{
+                        delete this.$route.query.menu_open;
+                        this.set_query();
+                        this.set_menu('close');
+                    }
+                }else {
+                    this.set_menu('open');
+                }
+            },
+            
+            set_menu(type){
+                if(type == 'open'){
+                    setTimeout(function(){
+                        $(".menu_btn_m,.layout_menu,body").addClass("open");
+                        $(".page_cover").fadeIn(200);
+                    });
+                    if(!('menu_open' in this.$route.query)){
+                        Object.assign(this.$route.query, { menu_open: 'true' });
+                        this.set_query();
+                    }
+
+                }else{
                     $(".menu_btn_m,.layout_menu,body").removeClass("open");
                     $(".page_cover").fadeOut(200);
-                    history.back();
-                }else {
-                    $(".menu_btn_m,.layout_menu,body").addClass("open");
-                    $(".page_cover").fadeIn(200);
-                    // history.replaceState({}, "page 2", "?menu-open=true");
-                    history.pushState({}, "page 2", "#/dashboard/?menu-open=true");
+                    delete this.$route.query.menu_open;
                 }
+            },
+
+            set_query(){
+                let route = this.$route;
+                let query = Object.keys(route.query).reduce(function(a,k){a.push(k+'='+encodeURIComponent(route.query[k]));return a},[]).join('&');
+                let path;
+                path = Object.keys(route.query).length == 0 ? this.$route.path : this.$route.path+"?"+query;
+                history.pushState({}, "toggle_menu", "#"+path);
             }
         },
         beforeMount() {
+
         },
         mounted() {
+            if('menu_open' in this.$route.query){
+                this.set_menu('open');
+            }
         },
         watch: {
             '$route' (to, from){
-                $(".menu_btn_m,.layout_menu,body").removeClass("open");
-                $(".page_cover").fadeOut(200);
-                // console.log('fff');
+                if('menu_open' in this.$route.query){
+                    this.set_menu('open');
+                }else{
+                    this.set_menu('close');
+                }
+            }
+        },
+        computed: {
+            MainHeaderObject() {
+                return {
+                    main_header_height: !this.is_main
+                }
             }
         }
     }
 </script>
+
+<style scoped>
+    .main_header_height{
+        height: 60px;
+    }
+    @media only screen and (max-width: 1120px) {
+        .main_header_height{
+            height: 40px;
+        }
+    }
+</style>
