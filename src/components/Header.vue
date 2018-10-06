@@ -24,6 +24,11 @@
                 </div>
                 <div class="page_cover" v-on:click="menu_toggle"></div>
                 <div class="layout_menu">
+                    <div class="profile_wrap">
+                        <div class="profile_img" :style="{'background-image': 'url('+user.profile.profile_picture+')'}"></div>
+                        <em>{{ user.profile.nickname }}</em>
+                        <strong>official</strong>
+                    </div>
                     <ul class="main_menu">
                         <li>
                             <router-link :to="{ name: 'dashboard' }">DASHBOARD</router-link>
@@ -50,16 +55,13 @@
                             <router-link :to="{ name: 'profile' }">EDIT PROFILE</router-link>
                         </li>
                     </ul>
-                    <h2 class="menu_title">ARTIST</h2>
-                    <ul class="main_menu">
-                        <li>
-                            <a>{{ user.profile.nickname }}<span :style="{'background-image': 'url('+user.profile.profile_picture+')'}"></span></a>
-                        </li>
-                        
-                        <li>
-                            <router-link :to="{ name: 'logout' }">LOG OUT</router-link>
-                        </li>
-                    </ul>
+                    <div class="header_top_btn_area">
+                        <router-link :to="{ name: 'Main' }" :style="header_top_btn_area_logo">DOPEHOTZ</router-link>
+                        <!-- <a href="//dopehotz.com">DOPEHOTZ</a> -->
+                    </div>
+                    <div class="logout_wrap">
+                        <router-link :to="{ name: 'logout' }">LOG OUT</router-link>
+                    </div>
                 </div>
             </div>
         
@@ -76,6 +78,9 @@
                 user: this.parent_user,
                 header_logo: {
                     'background-image': 'url('+require('@/assets/img/logo_m.png')+')'
+                },
+                header_top_btn_area_logo: {
+                    'background-image': 'url('+require('@/assets/img/main_logo.png')+')'
                 }
             }
         },
@@ -88,7 +93,8 @@
                 }else {
                     $(".menu_btn_m,.layout_menu,body").addClass("open");
                     $(".page_cover").fadeIn(200);
-                    history.pushState({}, "page 2", "#/menu-open");
+                    // history.replaceState({}, "page 2", "?menu-open=true");
+                    history.pushState({}, "page 2", "#/dashboard/?menu-open=true");
                 }
             }
         },
