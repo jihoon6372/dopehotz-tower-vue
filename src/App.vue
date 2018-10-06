@@ -223,9 +223,7 @@ export default {
     }
   },
   mounted(){
-    this.save_this_route();
-    console.log(this.user);
-    
+    this.save_this_route();    
   },
   created() {
     this.get_user_data();
@@ -297,4 +295,6 @@ export default {
 				-webkit-transform: rotate(720deg);
 		}
 }
+
+
 </style>
