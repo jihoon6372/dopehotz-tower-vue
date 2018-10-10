@@ -1167,17 +1167,14 @@ select::-ms-expand {
 
 .share_area .facebook_share {
     background-color: #4267B2;
-    background-image: url(/static/img/assets/share/facebook.png);
 }
 
 .share_area .kakaotalk_share {
     background-color: #FCCE00;
-    background-image: url(/static/img/assets/share/kakaotalk.png);
 }
 
 .share_area .kakaostory_share {
     background-color: #FCCE00;
-    background-image: url(/static/img/assets/share/kakaostory.png);
 }
 
 
