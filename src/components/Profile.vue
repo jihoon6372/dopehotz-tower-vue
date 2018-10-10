@@ -53,7 +53,7 @@
                         <div class="input_form">
                             <label for="tracktag">사운드 클라우드 ID</label>
                             <input type="text" id="sndcleid" name="sndcleid" v-model="user.profile.soundcloud_id" disabled="">
-                            <a class="conect_snd">계정 새로고침</a>
+                            <a class="conect_snd" @click="get_profile_picture_from_soundcloud">계정 새로고침</a>
                         </div>
                         <div class="input_form">
                             <label for="tracktag">로그인 계정(ID)</label>
@@ -70,7 +70,7 @@
                             </div>
                         </div>
                     <div class="track_submit_wrap">
-                        <button class="track_submit">저장</button>
+                        <button class="track_submit" @click="save">저장</button>
                     </div>
                 </div>
                 <div class="innercontent_layout_r">
@@ -119,17 +119,64 @@
 
 <script>
 export default {
-    props: ['parent_user', 'change_picture'],
+    props: ['parent_user', 'change_picture', 'get_api_token'],
     data() {
         return {
             user: this.parent_user,
+            is_submit: false,
             dashboard_header: {
                 'background-image': 'url('+require('@/assets/img/sub_main/sub_main04.jpg')+')'
             }
         }
     },
-    mounted() {
+    methods: {
+        save() {
+            if(this.is_submit) return false;
+            this.is_submit = true;
+            let self = this;
 
+            this.axios({
+                method: 'put',
+                url: process.env.API_URL+'/v1/accounts/74/',
+                headers: {
+                    'Authorization': this.get_api_token()
+                },
+                data: {
+                    profile: {
+                        nickname: this.user.profile.nickname,
+                        crew: this.user.profile.crew,
+                        location: this.user.profile.location,
+                        greeting: this.user.profile.greeting,
+                        likes_greeting: this.user.profile.likes_greeting,
+                        clips_greeting: this.user.profile.clips_greeting,
+                        profile_picture: this.user.profile.profile_picture
+                    }
+                }
+            })
+            .then(function (response){
+                alert('저장 되었습니다.');
+                self.is_submit = false;
+            })
+        },
+        get_profile_picture_from_soundcloud() {
+            if(this.is_submit) return false;
+            this.is_submit = true;
+
+            let self = this;
+            this.axios({
+                method: 'get',
+                url: process.env.SOUNDCLOUD_URL+'/me?oauth_token='+process.env.SOUNDCLOUD_OAUTH_TOKEN
+            })
+            .then(function (response){
+                self.user.profile.profile_picture = self.change_picture(response.data.avatar_url);
+                alert('프로필 이미지가 갱신 되었습니다.\n아래 저장버튼을 눌러야 정상 적용됩니다.');
+                self.is_submit = false;
+                
+            })
+        }
+    },
+    mounted() {
+        
     }
 }
 </script>
