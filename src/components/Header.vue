@@ -73,6 +73,7 @@
         data() {
             return {
                 user: this.parent_user,
+                before_page: undefined,
                 header_logo: {
                     'background-image': 'url('+require('@/assets/img/logo_m.png')+')'
                 },
@@ -85,7 +86,8 @@
             menu_toggle(){
                 if ($(".menu_btn_m").hasClass('open')){
                     if (history.length > 2) {
-                        history.back();
+                        this.$router.go(-1);
+                        // history.back();
                     }else{
                         delete this.$route.query.menu_open;
                         this.set_query();
