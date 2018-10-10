@@ -7,6 +7,7 @@ import Tracks from '@/components/Tracks'
 import Profile from '@/components/Profile'
 import PostSelect from '@/components/PostSelect'
 import PostCreate from '@/components/PostCreate'
+import PostDone from '@/components/PostDone'
 import Auth from '@/components/Auth'
 import Logout from '@/components/Logout'
 
@@ -42,6 +43,11 @@ export default new Router({
       path: '/post/create/:id',
       name: 'post_create',
       component: PostCreate
+    },
+    {
+      path: '/post/done',
+      name: 'post_done',
+      component: PostDone
     },
     {
       path: '/tracks',
