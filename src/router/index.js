@@ -18,6 +18,7 @@ Vue.use(Router)
 Vue.use(VueCarousel);
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
