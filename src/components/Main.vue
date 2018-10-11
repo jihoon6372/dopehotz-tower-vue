@@ -12,8 +12,9 @@
                             <br> 내 음악을 들려주세요.</h2>
                         <p>카페에서 혹은 매장에서 내 음악이 재생될 수 있습니다. 내 작업물을 공유하고 어디에서든 재생될 수 있게 하세요.</p>
                         <div>
-                            <router-link :to="{ name: 'dashboard' }" v-if="get_only_api_token()">시작하기</router-link>
-                            <a v-bind:href="auth_url()" v-else>시작하기</a>
+                            <router-link :to="{ name: 'dashboard' }" v-if="RedirectLevel == 1">시작하기</router-link>
+                            <a v-bind:href="ConnectUrl()" v-else-if="RedirectLevel == 2">시작하기</a>
+                            <a v-bind:href="auth_url()" v-else-if="RedirectLevel == 3">시작하기</a>
                         </div>
                     </div>
                 </div>
@@ -31,8 +32,9 @@
                             <br>지금 바로 내 창작물을 공개하세요.
                             <br>음악은 사람들이 들어줄 때 가장 빛이 납니다.</p>
                             <div>
-                                <router-link :to="{ name: 'dashboard' }" v-if="get_only_api_token()">시작하기</router-link>
-                                <a v-bind:href="auth_url()" v-else>시작하기</a>
+                                <router-link :to="{ name: 'dashboard' }" v-if="RedirectLevel == 1">시작하기</router-link>
+                                <a v-bind:href="ConnectUrl()" v-else-if="RedirectLevel == 2">시작하기</a>
+                                <a v-bind:href="auth_url()" v-else-if="RedirectLevel == 3">시작하기</a>
                             </div>
                     </div>
                 </div>
@@ -46,8 +48,9 @@
                             <br>팔로워를 늘려보세요.</h2>
                         <p>카페에서 혹은 매장에서 내 음악이 재생될 수 있습니다. 내 작업물을 공유하고 어디에서든 재생될 수 있게 하세요.</p>
                         <div>
-                            <router-link :to="{ name: 'dashboard' }" v-if="get_only_api_token()">시작하기</router-link>
-                            <a v-bind:href="auth_url()" v-else>시작하기</a>
+                            <router-link :to="{ name: 'dashboard' }" v-if="RedirectLevel == 1">시작하기</router-link>
+                            <a v-bind:href="ConnectUrl()" v-else-if="RedirectLevel == 2">시작하기</a>
+                            <a v-bind:href="auth_url()" v-else-if="RedirectLevel == 3">시작하기</a>
                         </div>
                     </div>
                 </div>
@@ -61,8 +64,9 @@
                             <br> 리스너와 소통하세요.</h2>
                         <p>내 하드디스크, 노트북, 클라우드에서 혹은 외장하드에서 잠자고 있는 내 창작물을 지금 공개해 보세요. 당신이 누구라도 상관 없습니다.</p>
                         <div>
-                            <router-link :to="{ name: 'dashboard' }" v-if="get_only_api_token()">시작하기</router-link>
-                            <a v-bind:href="auth_url()" v-else>시작하기</a>
+                            <router-link :to="{ name: 'dashboard' }" v-if="RedirectLevel == 1">시작하기</router-link>
+                            <a v-bind:href="ConnectUrl()" v-else-if="RedirectLevel == 2">시작하기</a>
+                            <a v-bind:href="auth_url()" v-else-if="RedirectLevel == 3">시작하기</a>
                         </div>
                     </div>
                 </div>
@@ -82,6 +86,8 @@ export default {
             back2: 'background-image: url('+require('@/assets/img/slide/slide01.jpg')+')',
             back3: 'background-image: url('+require('@/assets/img/slide/slide03.jpg')+')',
             back4: 'background-image: url('+require('@/assets/img/slide/slide04.jpg')+')',
+            RedirectLevel: 0,
+            user: this.parent_user
         }
     },
 
@@ -97,17 +103,32 @@ export default {
         },
         auth_url(){
             return '//auth.dopehotz.com/?next='+process.env.TOWER_URL;
+        },
+        ConnectUrl(){
+            return '//auth.dopehotz.com/connect/';
+        },
+        set_url_level(){
+            const jwt_token = this.get_only_api_token();
+
+            setTimeout(() => {
+                if(jwt_token){
+                    if (this.parent_user.profile.soundcloud_id === 0){
+                        this.RedirectLevel = 2;
+                    }else{
+                        this.RedirectLevel = 1;
+                    }
+                }else{
+                    this.RedirectLevel = 3;
+                }
+            }, 100);
         }
     },
-
-    beforeMount(){
-        
-    },
-
     mounted(){
         this.main();
         this.set_se_pre_con(false);
-    },
+        this.set_url_level();
+        
+    }
     
 }
 </script>
