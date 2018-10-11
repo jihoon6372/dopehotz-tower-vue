@@ -124,6 +124,7 @@ export default {
         return {
             user: this.parent_user,
             is_submit: false,
+            SOUNDCLOUD_OAUTH_TOKEN: '',
             dashboard_header: {
                 'background-image': 'url('+require('@/assets/img/sub_main/sub_main04.jpg')+')'
             }
@@ -165,7 +166,7 @@ export default {
             let self = this;
             this.axios({
                 method: 'get',
-                url: process.env.SOUNDCLOUD_URL+'/me?oauth_token='+process.env.SOUNDCLOUD_OAUTH_TOKEN
+                url: process.env.SOUNDCLOUD_URL+'/me?oauth_token='+self.SOUNDCLOUD_OAUTH_TOKEN
             })
             .then(function (response){
                 self.user.profile.profile_picture = self.change_picture(response.data.avatar_url);
@@ -173,10 +174,30 @@ export default {
                 self.is_submit = false;
                 
             })
+        },
+        get_soundcloud_oauth_token() {
+            let self = this;
+            this.axios({
+                method: 'get',
+                url: process.env.API_URL+'/v1/accounts/me/soundcloud-token/',
+                headers: {
+                    'Authorization': this.get_api_token()
+                }
+            })
+            .then(response => {
+                self.SOUNDCLOUD_OAUTH_TOKEN = response.data.SOUNDCLOUD_OAUTH_TOKEN;
+            })
+            .catch(error => {
+                try {
+                    alert(error.response.data.detail);
+                } catch (error) {
+                    
+                }
+            })
         }
     },
     mounted() {
-        
+        this.get_soundcloud_oauth_token();
     }
 }
 </script>
