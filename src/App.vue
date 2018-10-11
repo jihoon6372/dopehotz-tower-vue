@@ -178,7 +178,8 @@ export default {
 
     get_user_data() {
       var self = this;
-      if(!this.get_only_api_token() || this.not_token_refresh.includes(this.$route.name)) return false;
+      // if(!this.get_only_api_token() || this.not_token_refresh.includes(this.$route.name)) return false;
+      if(!this.get_only_api_token()) return false;
       this.axios({
           method: 'get',
           url: process.env.API_URL+'/v1/accounts/me/',
@@ -188,6 +189,11 @@ export default {
       })
       .then(function (response){
           let user_profile = self.user.profile;
+          if(response.data.profile.soundcloud_id === 0 && !self.not_token_refresh.includes(self.$route.name)){
+            window.location = 'https://auth.dopehotz.com/connect/';
+            return false;
+          }
+
           user_profile.nickname = response.data.profile.nickname;
           user_profile.profile_picture = response.data.profile.profile_picture;
           user_profile.crew = response.data.profile.crew;
@@ -209,15 +215,17 @@ export default {
           self.se_pre_con = false;
       })
       .catch(error => {
-          if(error.response.data){
-              var msg = error.response.data;
+          try {
+            let msg = error.response.data;
               for(key in error.response.data){
-                  if(Array.isArray(msg[key])){
-                      alert(msg[key][0]);
-                  }else{
-                      alert(msg.detail);
-                  }   
+                if(Array.isArray(msg[key])){
+                    alert(msg[key][0]);
+                }else{
+                    alert(msg.detail);
+                }   
               }
+          } catch (error) {
+            
           }
       });
     }
@@ -252,48 +260,48 @@ export default {
 </script>
 
 <style scoped>
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
-}
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+  }
 
-.se-pre-con {
-        width: 100%;
-        height: 100%;
-        position: fixed;
-        top: 0;
-        left: 0;
-        background-color: rgba(36,36,37,0.9);
-        z-index: 999;
-        transition: opacity .5s;
-    }
+  .se-pre-con {
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: rgba(36,36,37,0.9);
+      z-index: 999;
+      transition: opacity .5s;
+  }
 
-    .se-pre-con>div {
-        position: absolute;
-        top: 50%;
-        left: 0;
-        transform: translateY(-50%);
-        width: 100%;
-    }
+  .se-pre-con>div {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      width: 100%;
+  }
 
-    .se-pre-con>div>div {
-        width: 100px;
-        height: 100px;
-        margin: 0 auto;
-        background-image: url(./assets/img/loader.png);
-        background-size: 100%;
-        -webkit-animation: rotation 2s infinite cubic-bezier(0.5, 0, 0.5, 1);
-        
-    }
-    @-webkit-keyframes rotation {
-		from {
-				-webkit-transform: rotate(0deg);
-		}
-		to {
-				-webkit-transform: rotate(720deg);
-		}
+  .se-pre-con>div>div {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto;
+      background-image: url(./assets/img/loader.png);
+      background-size: 100%;
+      -webkit-animation: rotation 2s infinite cubic-bezier(0.5, 0, 0.5, 1);
+      
+  }
+  @-webkit-keyframes rotation {
+  from {
+      -webkit-transform: rotate(0deg);
+  }
+  to {
+      -webkit-transform: rotate(720deg);
+  }
 }
 
 
