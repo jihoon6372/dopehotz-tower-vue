@@ -138,7 +138,7 @@ export default {
 
             this.axios({
                 method: 'put',
-                url: process.env.API_URL+'/v1/accounts/74/',
+                url: process.env.API_URL+'/v1/accounts/'+this.user.id+'/',
                 headers: {
                     'Authorization': this.get_api_token()
                 },
