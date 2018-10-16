@@ -31,16 +31,23 @@ export default {
     methods: {
         get_track_list() {
             const url = 'http://api.soundcloud.com/users/'+this.user.profile.soundcloud_id+'/tracks/?client_id='+process.env.SOUNDCLOUD_KEY;
-            fetch(url)
-            .then(res => res.json())
+            this.axios({
+                methods: 'get',
+                url: url
+            })
             .then(res => {
-                this.track_list = res;
-                this.set_se_pre_con(false);
+                this.track_list = res.data;
                 let self = this;
+
                 setTimeout(function(){
                     self.set_carousel();
+                    self.set_se_pre_con(false);
                 });
-            });
+            })
+            .catch(res => {
+                alert(res.response.data.error);
+                this.$router.push({name: 'dashboard'});
+            })
         },
 
         set_carousel(){
@@ -78,8 +85,8 @@ export default {
         }
     },
     mounted(){
-        this.set_se_pre_con(true);
         let self = this;
+        this.set_se_pre_con(true);
         let is_user_profile = setInterval(function(){
             if(self.user.profile.soundcloud_id !== undefined){
                 self.get_track_list();
