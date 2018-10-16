@@ -26,6 +26,7 @@
 
 <script>
 export default {
+    props: ['set_se_pre_con'],
     data() {
         return {
             TitleStyle: 'background-image: url('+require('@/assets/img/sub_main/sub_main03.jpg')+')',
@@ -35,6 +36,9 @@ export default {
                 KakaoStory: 'background-image: url('+require('@/assets/img/share/kakaostory.png')+')',
             }
         }
+    },
+    mounted() {
+        this.set_se_pre_con(false);
     }
 }
 </script>
