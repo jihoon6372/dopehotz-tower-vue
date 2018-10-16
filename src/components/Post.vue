@@ -17,6 +17,7 @@
 
 <script>
     export default {
+        props: ['set_se_pre_con'],
         name: 'Post',
         data() {
             return {
@@ -24,6 +25,9 @@
                     'background-image': 'url('+require('@/assets/img/sub_main/sub_main03.jpg')+')'
                 }
             }
+        },
+        mounted() {
+            this.set_se_pre_con(false);
         }
     }
 </script>
