@@ -30,7 +30,7 @@ export default {
                 'background-image': 'url('+require('@/assets/img/player_close_btn.png')+')'
             },
             art_image_style: {
-                'background-image': 'url('+require('@/assets/img/loader.png')+')'
+                'background-image': 'url('+require('@/assets/img/loading.gif')+')'
             },
             is_play: false,
             player_active: false,
@@ -67,7 +67,7 @@ export default {
             this.player_active = false;
         },
         start_loading() {
-            this.art_image_style['background-image'] = 'url('+require('@/assets/img/loader.png')+')';
+            this.art_image_style['background-image'] = 'url('+require('@/assets/img/loading.gif')+')';
             this.is_loading = true;
             this.set_player_title('미리듣기 로딩중입니다.', '로딩이 완료되면 재생을 눌러주세요.');
         },
