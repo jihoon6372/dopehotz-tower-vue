@@ -194,15 +194,16 @@ export default {
             return false;
           }
 
+          self.user.id = response.data.id;
+
           user_profile.nickname = response.data.profile.nickname;
           user_profile.profile_picture = response.data.profile.profile_picture;
-          user_profile.crew = response.data.profile.crew;
+          user_profile.crew = response.data.profile.crew ? response.data.profile.crew : user_profile.crew;
           user_profile.location = response.data.profile.location;
           user_profile.greeting = response.data.profile.greeting;
           user_profile.clips_greeting = response.data.profile.clips_greeting;
           user_profile.likes_greeting = response.data.profile.likes_greeting;
           user_profile.soundcloud_id = response.data.profile.soundcloud_id;
-          user_profile.crew = response.data.profile.crew;
           user_profile.location = response.data.profile.location;
           self.user.provider = response.data.social_type;
           self.user.track_list_count.all = response.data.track_list_count.all;
