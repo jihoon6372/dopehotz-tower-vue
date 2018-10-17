@@ -119,7 +119,7 @@
 
 <script>
 export default {
-    props: ['parent_user', 'change_picture', 'get_api_token'],
+    props: ['parent_user', 'change_picture', 'get_api_token', 'set_se_pre_con'],
     data() {
         return {
             user: this.parent_user,
@@ -186,6 +186,7 @@ export default {
             })
             .then(response => {
                 self.SOUNDCLOUD_OAUTH_TOKEN = response.data.SOUNDCLOUD_OAUTH_TOKEN;
+                self.set_se_pre_con(false);
             })
             .catch(error => {
                 try {
