@@ -31,6 +31,9 @@
                     </div>
                     <ul class="main_menu">
                         <li>
+                            <router-link :to="{ name: 'notice' }">NOTICE</router-link>
+                        </li>
+                        <li>
                             <router-link :to="{ name: 'dashboard' }">DASHBOARD</router-link>
                         </li>
                         <li>
