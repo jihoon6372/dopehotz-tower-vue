@@ -135,7 +135,7 @@ export default {
             })
             .then(response => { 
                 alert('이미 등록된 트랙입니다.');
-                
+                this.$router.push({ name: 'post_select' });                
             })
             .catch(error => {
                 // 저장된 트랙이 없을 경우 사운드클라우드 트랙정보 가져오기
@@ -176,9 +176,9 @@ export default {
 
         track_submit() {
             if(this.is_submit) return false;
-            this.set_se_pre_con(true);
             this.track_info.tag = tagsArray[0].join(', ');
-            if(!this.trim(this.track_info.tape_info)){
+
+            if(!this.track_info.tape_info){
                 alert('트랙 소개를 입력 해주세요.');
                 return false;
             }
@@ -194,6 +194,7 @@ export default {
             }
 
             this.is_submit = true;
+            this.set_se_pre_con(true);
 
             this.axios({
                 method: 'post',
