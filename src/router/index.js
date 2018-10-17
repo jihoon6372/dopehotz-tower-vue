@@ -10,6 +10,7 @@ import PostCreate from '@/components/PostCreate'
 import PostDone from '@/components/PostDone'
 import Auth from '@/components/Auth'
 import Logout from '@/components/Logout'
+import Notice from '@/components/Notice'
 
 import VueCarousel from 'vue-carousel'
 
@@ -75,6 +76,11 @@ export default new Router({
       path: '/logout',
       name: 'logout',
       component: Logout
+    },
+    {
+      path: '/notice',
+      name: 'notice',
+      component: Notice
     }
 
 
