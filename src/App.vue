@@ -291,9 +291,9 @@ export default {
       width: 100px;
       height: 100px;
       margin: 0 auto;
-      background-image: url(./assets/img/loading.gif);
+      background-image: url(./assets/img/loader.png);
       background-size: 100%;
-      /* -webkit-animation: rotation 2s infinite cubic-bezier(0.5, 0, 0.5, 1); */
+      -webkit-animation: rotation 2s infinite cubic-bezier(0.5, 0, 0.5, 1);
       
   }
   @-webkit-keyframes rotation {
