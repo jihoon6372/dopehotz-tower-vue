@@ -25,7 +25,7 @@
             <ul class="mytrack_list_empty" v-if="track_empty">
                 <li>
                     <h2>아직 등록된 트랙이 없네요.<br>지금 바로 트랙을 등록해 보세요!</h2>
-                    <a href="">트랙 등록하기</a>
+                    <router-link :to="{name: 'post_select'}">트랙 등록하기</router-link>
                 </li>
             </ul>
 
