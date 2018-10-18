@@ -31,9 +31,6 @@
                     </div>
                     <ul class="main_menu">
                         <li>
-                            <router-link :to="{ name: 'notice' }">NOTICE</router-link>
-                        </li>
-                        <li>
                             <router-link :to="{ name: 'dashboard' }">DASHBOARD</router-link>
                         </li>
                         <li>
@@ -64,6 +61,12 @@
                     <div class="logout_wrap">
                         <router-link :to="{ name: 'logout' }">LOG OUT</router-link>
                     </div>
+                    <h2 class="menu_title">SUPPORT</h2>
+                    <ul class="main_menu">
+                        <li>
+                            <router-link :to="{ name: 'notice' }">NOTICE</router-link>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
