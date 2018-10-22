@@ -10,8 +10,8 @@ import PostCreate from '@/components/PostCreate'
 import PostDone from '@/components/PostDone'
 import Auth from '@/components/Auth'
 import Logout from '@/components/Logout'
-import Notice from '@/components/Notice'
-import NoticeDetail from '@/components/NoticeDetail'
+import Notice from '@/components/articles/Notice'
+import NoticeDetail from '@/components/articles/NoticeDetail'
 
 import VueCarousel from 'vue-carousel'
  
@@ -83,7 +83,7 @@ export default new Router({
       component: Notice
     },
     {
-      path: '/notice/:id',
+      path: '/notice/:slug',
       name: 'notice-detail',
       component: NoticeDetail
     }
