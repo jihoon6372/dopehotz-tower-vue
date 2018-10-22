@@ -8,20 +8,10 @@
         </div>
         <div class="content">
             <ul class="board_list">
-                <li>
-                    <a href="#"><h4>업로드 전 반드시 저작권을 확인하세요!</h4></a>
-                    <a href="#"><p>가사, 멜로디 등 허락되지 않은 다른 저작물의 지식재산권을 침해 하지 않았는지 확인해주세요. 도파츠는 아티스트의 저작권 위반에 대한 어떠한 법적 책임과 권리가 없음을 유의해 주시기 바랍니다.</p></a>
-                    <span>2018.10.18</span>
-                </li>
-                <li>
-                    <a href="#"><h4>업로드 전 반드시 저작권을 확인하세요!</h4></a>
-                    <a href="#"><p>가사, 멜로디 등 허락되지 않은 다른 저작물의 지식재산권을 침해 하지 않았는지 확인해주세요. 도파츠는 아티스트의 저작권 위반에 대한 어떠한 법적 책임과 권리가 없음을 유의해 주시기 바랍니다.</p></a>
-                    <span>2018.10.18</span>
-                </li>
-                <li>
-                    <a href="#"><h4>업로드 전 반드시 저작권을 확인하세요!</h4></a>
-                    <a href="#"><p>가사, 멜로디 등 허락되지 않은 다른 저작물의 지식재산권을 침해 하지 않았는지 확인해주세요. 도파츠는 아티스트의 저작권 위반에 대한 어떠한 법적 책임과 권리가 없음을 유의해 주시기 바랍니다.</p></a>
-                    <span>2018.10.18</span>
+                <li v-for="article in notice" :key="article.id">
+                    <router-link :to="{ name: 'notice-detail', params: {id: article.slug} }"><h4>{{ article.title }}</h4></router-link>
+                    <router-link :to="{ name: 'notice-detail', params: {id: article.slug} }"><p>{{ article.content }}</p></router-link>
+                    <span>{{ change_date(article.created_at) }}</span>
                 </li>
             </ul>
         </div>
@@ -35,11 +25,29 @@ export default {
         return {
             notice_header: {
                 'background-image': 'url('+require('@/assets/img/sub_main/sub_main01.jpg')+')'
-            }
+            },
+            notice: []
+        }
+    },
+    methods: {
+        get_notice(){
+            this.axios({
+                method: 'get',
+                url: process.env.API_URL+'/notice/'
+            })
+            .then(response => {
+                this.set_se_pre_con(false);
+                this.notice = response.data.results;
+            })
+        },
+        change_date(date){
+            let dt = new Date(date);
+            return `${dt.getFullYear()}-${dt.getMonth()+1}-${dt.getDate()}`;
         }
     },
     mounted() {
-        this.set_se_pre_con(false);
+        this.set_se_pre_con(true);
+        this.get_notice();
     }    
 }
 </script>
