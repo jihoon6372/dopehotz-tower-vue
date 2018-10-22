@@ -11,9 +11,9 @@ import PostDone from '@/components/PostDone'
 import Auth from '@/components/Auth'
 import Logout from '@/components/Logout'
 import Notice from '@/components/Notice'
+import NoticeDetail from '@/components/NoticeDetail'
 
 import VueCarousel from 'vue-carousel'
-
  
 Vue.use(Router)
 Vue.use(VueCarousel);
@@ -81,8 +81,11 @@ export default new Router({
       path: '/notice',
       name: 'notice',
       component: Notice
+    },
+    {
+      path: '/notice/:id',
+      name: 'notice-detail',
+      component: NoticeDetail
     }
-
-
   ]
 })
